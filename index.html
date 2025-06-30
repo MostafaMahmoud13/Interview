@@ -1,215 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
+<script>
+  const form = document.getElementById('affiliateForm');
+  const phoneCode = document.getElementById('phoneCode');
+  const countrySelect = document.getElementById('country');
+  const submitBtn = document.getElementById('submitBtn');
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Affiliate Form</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-            cursor: url('https://mostafamahmoud13.github.io/999/cursor.png'), auto;
-        }
+  const inputs = {
+    firstName: document.getElementById('firstName'),
+    lastName: document.getElementById('lastName'),
+    email: document.getElementById('email'),
+    country: document.getElementById('country'),
+    whatsapp: document.getElementById('whatsapp'),
+    idImage: document.getElementById('idImage')
+  };
 
-        .container {
-            max-width: 500px;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+  const errors = {
+    firstName: document.getElementById('errorFirstName'),
+    lastName: document.getElementById('errorLastName'),
+    email: document.getElementById('errorEmail'),
+    country: document.getElementById('errorCountry'),
+    whatsapp: document.getElementById('errorWhatsapp'),
+    idImage: document.getElementById('errorIdImage')
+  };
 
-        input,
-        select {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+  function validateForm() {
+    let valid = true;
+    for (let key in inputs) {
+      const input = inputs[key];
+      const error = errors[key];
+      if ((input.type === 'file' && input.files.length === 0) ||
+          (input.type !== 'file' && input.value.trim() === '')) {
+        error.style.display = 'block';
+        valid = false;
+      } else {
+        error.style.display = 'none';
+      }
+    }
+    submitBtn.disabled = !valid;
+  }
 
-        .phone-group {
-            display: flex;
-            gap: 10px;
-        }
+  // تشغيل التحقق عند الكتابة
+  form.addEventListener('input', validateForm);
 
-        .phone-code {
-            width: 80px;
-            background-color: #eee;
-            text-align: center;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
+  // تغيير كود الدولة تلقائي
+  countrySelect.addEventListener('change', function () {
+    const selectedOption = this.options[this.selectedIndex];
+    const code = selectedOption.getAttribute('data-code');
+    phoneCode.value = code || '';
+  });
 
-        .error-message {
-            color: red;
-            font-size: 13px;
-            display: none;
-        }
+  // تنفيذ الإرسال
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    validateForm(); // نتحقق تاني
 
-        button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: url('https://mostafamahmoud13.github.io/999/cursor-click.png'), pointer;
-            margin-top: 10px;
-        }
+    if (submitBtn.disabled) return;
 
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-    </style>
-</head>
+    const data = {
+      firstName: inputs.firstName.value.trim(),
+      lastName: inputs.lastName.value.trim(),
+      email: inputs.email.value.trim(),
+      country: inputs.country.value,
+      whatsapp: `${phoneCode.value} ${inputs.whatsapp.value.trim()}`,
+      idImage: "تم الرفع يدويًا"
+    };
 
-<body>
-    <div class="container">
-        <h2>Join Our Affiliate Program</h2>
-        <form id="affiliateForm" novalidate>
-            <input type="text" id="firstName" name="firstName" placeholder="First Name" />
-            <div class="error-message" id="errorFirstName">Please enter your first name.</div>
-
-            <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
-            <div class="error-message" id="errorLastName">Please enter your last name.</div>
-
-            <input type="email" id="email" name="email" placeholder="Email" />
-            <div class="error-message" id="errorEmail">Please enter a valid email.</div>
-
-            <label>Country</label><br>
-            <select id="country" required>
-                <option value="" disabled selected>Select Country</option>
-                <option value="Czech Republic" data-code="+420">🇨🇿 Czech Republic</option>
-                <option value="Slovakia" data-code="+421">🇸🇰 Slovakia</option>
-                <option value="Hungary" data-code="+36">🇭🇺 Hungary</option>
-                <option value="Romania" data-code="+40">🇷🇴 Romania</option>
-                <option value="Poland" data-code="+48">🇵🇱 Poland</option>
-                <option value="Germany" data-code="+49">🇩🇪 Germany</option>
-                <option value="France" data-code="+33">🇫🇷 France</option>
-                <option value="Italy" data-code="+39">🇮🇹 Italy</option>
-                <option value="Spain" data-code="+34">🇪🇸 Spain</option>
-                <option value="Netherlands" data-code="+31">🇳🇱 Netherlands</option>
-                <option value="Belgium" data-code="+32">🇧🇪 Belgium</option>
-                <option value="Austria" data-code="+43">🇦🇹 Austria</option>
-                <option value="Sweden" data-code="+46">🇸🇪 Sweden</option>
-                <option value="Norway" data-code="+47">🇳🇴 Norway</option>
-                <option value="Denmark" data-code="+45">🇩🇰 Denmark</option>
-                <option value="Finland" data-code="+358">🇫🇮 Finland</option>
-                <option value="Ireland" data-code="+353">🇮🇪 Ireland</option>
-                <option value="Greece" data-code="+30">🇬🇷 Greece</option>
-                <option value="Portugal" data-code="+351">🇵🇹 Portugal</option>
-                <option value="Switzerland" data-code="+41">🇨🇭 Switzerland</option>
-            </select>
-
-            <div class="error-message" id="errorCountry">Please select your country.</div>
-
-            <label>WhatsApp Number</label>
-            <div class="phone-group">
-                <input type="text" id="phoneCode" class="phone-code" placeholder="+___" readonly />
-                <input type="text" id="whatsapp" placeholder="Enter number without code" />
-            </div>
-
-            <div class="error-message" id="errorWhatsapp">Please enter your WhatsApp number.</div>
-
-            <label>Upload ID Image:</label>
-            <input type="file" id="idImage" accept="image/*" />
-            <div class="error-message" id="errorIdImage">Please upload a clear image of your ID.</div>
-
-            <button type="submit" id="submitBtn" disabled>Submit</button>
-        </form>
-    </div>
-
-    <script>
-        const form = document.getElementById('affiliateForm');
-        const phoneCode = document.getElementById('phoneCode');
-        const countrySelect = document.getElementById('country');
-        const inputs = {
-            firstName: document.getElementById('firstName'),
-            lastName: document.getElementById('lastName'),
-            email: document.getElementById('email'),
-            country: document.getElementById('country'),
-            whatsapp: document.getElementById('whatsapp'),
-            idImage: document.getElementById('idImage')
-        };
-        const errors = {
-            firstName: document.getElementById('errorFirstName'),
-            lastName: document.getElementById('errorLastName'),
-            email: document.getElementById('errorEmail'),
-            country: document.getElementById('errorCountry'),
-            whatsapp: document.getElementById('errorWhatsapp'),
-            idImage: document.getElementById('errorIdImage')
-        };
-        const submitBtn = document.getElementById('submitBtn');
-
-        function validateForm() {
-            let valid = true;
-            for (let key in inputs) {
-                const input = inputs[key];
-                const error = errors[key];
-                if (
-                    (input.type === 'file' && input.files.length === 0) ||
-                    (input.type !== 'file' && input.value.trim() === '')
-                ) {
-                    error.style.display = 'block';
-                    valid = false;
-                } else {
-                    error.style.display = 'none';
-                }
-            }
-            submitBtn.disabled = !valid;
-        }
-
-        form.addEventListener('input', validateForm);
-
-
-
-        countrySelect.addEventListener('change', function () {
-            const selectedOption = this.options[this.selectedIndex];
-            const code = selectedOption.getAttribute('data-code');
-            phoneCode.value = code || '';
-        });
-
-        form.addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            // تأكد إن كل البيانات صح قبل الإرسال
-            if (submitBtn.disabled) return;
-
-            const data = {
-                firstName: inputs.firstName.value.trim(),
-                lastName: inputs.lastName.value.trim(),
-                email: inputs.email.value.trim(),
-                country: inputs.country.value,
-                whatsapp: `${phoneCode.value} ${inputs.whatsapp.value.trim()}`,
-                idImage: "تم الرفع يدويًا" // (أو لاحقًا نضيف رفع فعلي)
-            };
-
-            fetch("https://script.google.com/macros/s/AKfycbwdGIgtvakoiK9Z_olABBffWCc_g0IMrtQZesBDQwe2gd9FAyqFr0MSwhSRh8gqlX6zlw/exec", {
-                method: "POST",
-                body: JSON.stringify(data),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-                .then((res) => {
-                    if (res.ok) {
-                        window.location.href = "thankyou.html";
-                    } else {
-                        alert("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
-                    }
-                })
-                .catch(() => {
-                    alert("تعذر الاتصال بالسيرفر. تأكد من الاتصال بالإنترنت.");
-                });
-        });
-
-    </script>
-</body>
-
-</html>
+    fetch("https://script.google.com/macros/s/AKfycbwdGIgtvakoiK9Z_olABBffWCc_g0IMrtQZesBDQwe2gd9FAyqFr0MSwhSRh8gqlX6zlw/exec", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then((res) => {
+      if (res.ok) {
+        // مهلة بسيطة ثم تحويل
+        setTimeout(() => {
+          window.location.href = "thankyou.html";
+        }, 200);
+      } else {
+        alert("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
+      }
+    })
+    .catch(() => {
+      alert("تعذر الاتصال بالسيرفر. تأكد من الاتصال بالإنترنت.");
+    });
+  });
+</script>

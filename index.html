@@ -186,6 +186,40 @@
             phoneCode.value = code || '';
         });
 
+        form.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  // تأكد إن كل البيانات صح قبل الإرسال
+  if (submitBtn.disabled) return;
+
+  const data = {
+    firstName: inputs.firstName.value.trim(),
+    lastName: inputs.lastName.value.trim(),
+    email: inputs.email.value.trim(),
+    country: inputs.country.value,
+    whatsapp: inputs.whatsapp.value.trim(),
+    idImage: "تم الرفع يدويًا" // (أو لاحقًا نضيف رفع فعلي)
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbwdGIgtvakoiK9Z_olABBffWCc_g0IMrtQZesBDQwe2gd9FAyqFr0MSwhSRh8gqlX6zlw/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then((res) => {
+      if (res.ok) {
+        window.location.href = "thankyou.html";
+      } else {
+        alert("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
+      }
+    })
+    .catch(() => {
+      alert("تعذر الاتصال بالسيرفر. تأكد من الاتصال بالإنترنت.");
+    });
+});
+
     </script>
 </body>
 

@@ -1,34 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Affiliate Form</title>
+  <title>Join Our Affiliate Program</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      padding: 20px;
-      cursor: url('https://mostafamahmoud13.github.io/999/cursor.png'), auto;
+      font-family: 'Roboto', sans-serif;
+      background: url('1.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .container {
+      background-color: rgba(30, 30, 30, 0.85);
+      padding: 30px;
+      border-radius: 12px;
       max-width: 500px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      color: #fff;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #00ff99;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: #eee;
     }
 
     input,
     select {
       width: 100%;
-      padding: 10px;
-      margin: 5px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      padding: 12px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      background: #222;
+      color: white;
     }
 
     .phone-group {
@@ -38,33 +63,26 @@
 
     .phone-code {
       width: 80px;
-      background-color: #eee;
+      background-color: #444;
       text-align: center;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .error-message {
-      color: red;
-      font-size: 13px;
-      display: none;
+      border: 1px solid #555;
     }
 
     button {
-      background-color: #28a745;
-      color: white;
+      width: 100%;
+      padding: 12px;
+      background-color: #00cc66;
       border: none;
-      padding: 10px 20px;
+      color: white;
       font-size: 16px;
-      border-radius: 5px;
-      cursor: url('https://mostafamahmoud13.github.io/999/cursor-click.png'), pointer;
+      border-radius: 6px;
+      cursor: pointer;
       margin-top: 10px;
+      transition: background 0.3s;
     }
 
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
+    button:hover {
+      background-color: #00aa55;
     }
   </style>
 </head>

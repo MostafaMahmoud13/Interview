@@ -176,9 +176,9 @@
     });
 
     // تنفيذ الإرسال
-    form.addEventListener("submit", function (e) {
+ form.addEventListener("submit", function (e) {
   e.preventDefault();
-  validateForm(); // نتحقق تاني
+  validateForm();
 
   if (submitBtn.disabled) return;
 
@@ -192,31 +192,27 @@
   };
 
   fetch("https://script.google.com/macros/s/AKfycbxyNT1Ca1nmrEA-kyAMg5O6sIOw9lyzfEQRlNGHoDhmWQ93PXKHAj7RzEAuQNLVCf5ugw/exec", {
-
     method: "POST",
-    body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json"
-    }
+    },
+    body: JSON.stringify(data)
   })
-    .then((res) => res.text())
-    .then((text) => {
-      console.log("Server response:", text);
-
-      if (text.includes("success")) {
-        // تحويل بعد نجاح الإرسال
-        setTimeout(() => {
-          window.location.href = "thankyou.html";
-        }, 200);
+    .then(async (res) => {
+      const text = await res.text();
+      console.log("✅ Server response:", text);
+      if (res.ok && text.includes("success")) {
+        window.location.href = "thankyou.html";
       } else {
-        alert("السيرفر رد لكن البيانات غير واضحة: " + text);
+        alert("الرد من السيرفر غير متوقع: " + text);
       }
     })
     .catch((err) => {
-      console.error("Fetch error:", err);
+      console.error("❌ Fetch error:", err);
       alert("تعذر الاتصال بالسيرفر. تأكد من الاتصال بالإنترنت.");
     });
 });
+
 
   </script>
 

@@ -192,13 +192,13 @@
   };
 
   fetch("https://script.google.com/macros/s/AKfycbxeOfyBBCim-WX5gcj_eP1ormfTCVlQpU1Cu-bpEYg39KrsyXw2Z5J1vFSdxWzqoyhvOQ/exec", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(data)
+})
 
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
     .then((res) => res.text())
     .then((text) => {
       console.log("Server response:", text);

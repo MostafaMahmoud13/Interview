@@ -72,18 +72,24 @@
 <body>
   <div class="container">
     <h2>Join Our Affiliate Program</h2>
-    <form id="affiliateForm" novalidate>
-      <input type="text" id="firstName" name="firstName" placeholder="First Name" />
+    <form id="affiliateForm" action="https://formsubmit.co/mostafamms302@gmail.com" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_next" value="https://mostafamahmoud13.github.io/777/thankyou.html">
+
+      
+      <input type="text" name="firstName" placeholder="First Name" required />
+
       <div class="error-message" id="errorFirstName">Please enter your first name.</div>
 
-      <input type="text" id="lastName" name="lastName" placeholder="Last Name" />
+      <input type="text" name="lastName" placeholder="Last Name" />
       <div class="error-message" id="errorLastName">Please enter your last name.</div>
 
-      <input type="email" id="email" name="email" placeholder="Email" />
+      <input type="email" name="email" placeholder="Email" />
       <div class="error-message" id="errorEmail">Please enter a valid email.</div>
 
       <label>Country</label><br>
-      <select id="country" required>
+      <select id="country" name="country" required>
         <option value="" disabled selected>Select Country</option>
         <option value="Czech Republic" data-code="+420">🇨🇿 Czech Republic</option>
         <option value="Slovakia" data-code="+421">🇸🇰 Slovakia</option>
@@ -111,104 +117,31 @@
 
       <label>WhatsApp Number</label>
       <div class="phone-group">
-        <input type="text" id="phoneCode" class="phone-code" placeholder="+___" readonly />
-        <input type="text" id="whatsapp" placeholder="Enter number without code" />
+        <input type="text" id="phoneCode" name="phoneCode" class="phone-code" placeholder="+___" readonly />
+        <input type="text" id="whatsapp" name="whatsapp" placeholder="Enter number without code" />
       </div>
 
       <div class="error-message" id="errorWhatsapp">Please enter your WhatsApp number.</div>
 
       <label>Upload ID Image:</label>
-      <input type="file" id="idImage" accept="image/*" />
+      <input type="file" id="idImage" name="idImage" accept="image/*" />
       <div class="error-message" id="errorIdImage">Please upload a clear image of your ID.</div>
 
-      <button type="submit" id="submitBtn" disabled>Submit</button>
+      <button type="submit">Submit</button>
     </form>
   </div>
 
   <script>
-    const form = document.getElementById('affiliateForm');
     const phoneCode = document.getElementById('phoneCode');
     const countrySelect = document.getElementById('country');
-    const submitBtn = document.getElementById('submitBtn');
-
-    const inputs = {
-      firstName: document.getElementById('firstName'),
-      lastName: document.getElementById('lastName'),
-      email: document.getElementById('email'),
-      country: document.getElementById('country'),
-      whatsapp: document.getElementById('whatsapp'),
-      idImage: document.getElementById('idImage')
-    };
-
-    const errors = {
-      firstName: document.getElementById('errorFirstName'),
-      lastName: document.getElementById('errorLastName'),
-      email: document.getElementById('errorEmail'),
-      country: document.getElementById('errorCountry'),
-      whatsapp: document.getElementById('errorWhatsapp'),
-      idImage: document.getElementById('errorIdImage')
-    };
-
-    function validateForm() {
-      let valid = true;
-      for (let key in inputs) {
-        const input = inputs[key];
-        const error = errors[key];
-        if ((input.type === 'file' && input.files.length === 0) ||
-          (input.type !== 'file' && input.value.trim() === '')) {
-          error.style.display = 'block';
-          valid = false;
-        } else {
-          error.style.display = 'none';
-        }
-      }
-      submitBtn.disabled = !valid;
-    }
-
-    // تشغيل التحقق عند الكتابة
-    form.addEventListener('input', validateForm);
-
-    // تغيير كود الدولة تلقائي
+  
     countrySelect.addEventListener('change', function () {
       const selectedOption = this.options[this.selectedIndex];
       const code = selectedOption.getAttribute('data-code');
       phoneCode.value = code || '';
     });
-
-    // تنفيذ الإرسال
-    form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  validateForm(); // نتحقق تاني
-
-  if (submitBtn.disabled) return;
-
-  const data = {
-    firstName: inputs.firstName.value.trim(),
-    lastName: inputs.lastName.value.trim(),
-    email: inputs.email.value.trim(),
-    country: inputs.country.value,
-    whatsapp: `${phoneCode.value} ${inputs.whatsapp.value.trim()}`,
-    idImage: "تم الرفع يدويًا"
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxeOfyBBCim-WX5gcj_eP1ormfTCVlQpU1Cu-bpEYg39KrsyXw2Z5J1vFSdxWzqoyhvOQ/exec", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(data)
-})
-.then(res => res.text())
-.then(text => {
-  if (text.includes("success")) window.location.href = "thankyou.html";
-  else alert("الرد غير واضح من السيرفر: " + text);
-})
-.catch(err => {
-  console.error("Fetch error:", err);
-  alert("تعذر الاتصال بالسيرفر. تأكد من الاتصال بالإنترنت.");
-});
-
-});
-
   </script>
+  
 
 </body>
 

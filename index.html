@@ -176,9 +176,9 @@
     });
 
     // تنفيذ الإرسال
- form.addEventListener("submit", function (e) {
+    form.addEventListener("submit", function (e) {
   e.preventDefault();
-  validateForm();
+  validateForm(); // نتحقق تاني
 
   if (submitBtn.disabled) return;
 
@@ -191,28 +191,32 @@
     idImage: "تم الرفع يدويًا"
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbxyNT1Ca1nmrEA-kyAMg5O6sIOw9lyzfEQRlNGHoDhmWQ93PXKHAj7RzEAuQNLVCf5ugw/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbxeOfyBBCim-WX5gcj_eP1ormfTCVlQpU1Cu-bpEYg39KrsyXw2Z5J1vFSdxWzqoyhvOQ/exec", {
+
     method: "POST",
+    body: JSON.stringify(data),
     headers: {
       "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
+    }
   })
-    .then(async (res) => {
-      const text = await res.text();
-      console.log("✅ Server response:", text);
-      if (res.ok && text.includes("success")) {
-        window.location.href = "thankyou.html";
+    .then((res) => res.text())
+    .then((text) => {
+      console.log("Server response:", text);
+
+      if (text.includes("success")) {
+        // تحويل بعد نجاح الإرسال
+        setTimeout(() => {
+          window.location.href = "thankyou.html";
+        }, 200);
       } else {
-        alert("الرد من السيرفر غير متوقع: " + text);
+        alert("السيرفر رد لكن البيانات غير واضحة: " + text);
       }
     })
     .catch((err) => {
-      console.error("❌ Fetch error:", err);
+      console.error("Fetch error:", err);
       alert("تعذر الاتصال بالسيرفر. تأكد من الاتصال بالإنترنت.");
     });
 });
-
 
   </script>
 

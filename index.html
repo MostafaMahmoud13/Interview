@@ -193,29 +193,19 @@
 
   fetch("https://script.google.com/macros/s/AKfycbxeOfyBBCim-WX5gcj_eP1ormfTCVlQpU1Cu-bpEYg39KrsyXw2Z5J1vFSdxWzqoyhvOQ/exec", {
   method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
+  headers: { "Content-Type": "application/json" },
   body: JSON.stringify(data)
 })
+.then(res => res.text())
+.then(text => {
+  if (text.includes("success")) window.location.href = "thankyou.html";
+  else alert("الرد غير واضح من السيرفر: " + text);
+})
+.catch(err => {
+  console.error("Fetch error:", err);
+  alert("تعذر الاتصال بالسيرفر. تأكد من الاتصال بالإنترنت.");
+});
 
-    .then((res) => res.text())
-    .then((text) => {
-      console.log("Server response:", text);
-
-      if (text.includes("success")) {
-        // تحويل بعد نجاح الإرسال
-        setTimeout(() => {
-          window.location.href = "thankyou.html";
-        }, 200);
-      } else {
-        alert("السيرفر رد لكن البيانات غير واضحة: " + text);
-      }
-    })
-    .catch((err) => {
-      console.error("Fetch error:", err);
-      alert("تعذر الاتصال بالسيرفر. تأكد من الاتصال بالإنترنت.");
-    });
 });
 
   </script>
